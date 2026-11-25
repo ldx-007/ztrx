@@ -1,0 +1,19 @@
+name: Build ztrx for Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - run: rustup toolchain install
+      - run: cargo build --release -p victory --locked
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ztrx-windows-x64
+          path: target/release/victory.exe
+          if-no-files-found: error
